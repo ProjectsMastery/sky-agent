@@ -1,0 +1,80 @@
+{
+  "name": "sky-agent",
+  "displayName": "Sky Agent",
+  "description": "A talking AI coding assistant.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "sky-agent.helloWorld",
+        "title": "Hello World (Sky Agent)"
+      },
+      {
+        "command": "skyAgent.show",
+        "title": "Show Sky Agent"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "sky-agent-sidebar",
+          "title": "Sky Agent",
+          "icon": "$(comment-discussion)"
+        }
+      ]
+    },
+    "views": {
+      "sky-agent-sidebar": [
+        {
+          "type": "webview",
+          "id": "skyAgent.skyView",
+          "name": "Sky Assistant",
+          "contextualTitle": "Sky Agent",
+          "icon": "$(comment-discussion)"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package-webview && npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test",
+    "compile-webview": "esbuild ./src/webview/main.js --bundle --outfile=out/webview/main.js --format=iife --platform=browser --loader:.js=js",
+    "watch-webview": "esbuild ./src/webview/main.js --bundle --outfile=out/webview/main.js --format=iife --platform=browser --loader:.js=js --watch",
+    "package-webview": "npm run compile-webview && esbuild ./src/webview/styles.css --bundle --outfile=out/webview/styles.css --minify"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^8.31.1",
+    "@typescript-eslint/parser": "^8.31.1",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.5.2",
+    "esbuild": "^0.20.2",
+    "eslint": "^9.25.1",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.8.3",
+    "webpack": "^5.99.7",
+    "webpack-cli": "^6.0.1"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1"
+  }
+}
