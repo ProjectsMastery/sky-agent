@@ -6,7 +6,7 @@ import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold, Part } from '@goo
 // ============================================================================================
 // === SINGLE PLACE TO PUT YOUR API KEY ===
 // Replace 'YOUR_GEMINI_API_KEY_GOES_HERE' with your actual Gemini API Key string.
-const GEMINI_API_KEY: string | undefined = 'AIzaSyAD8NRaZM3Jk3toV-vI4IVVZQcwmkq0nT0';
+const GEMINI_API_KEY: string | undefined = 'YOUR_GEMINI_API_KEY_GOES_HERE'; // Changed this link 
 // ============================================================================================
 
 let genAI: GoogleGenerativeAI | null = null;
