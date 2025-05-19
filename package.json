@@ -1,80 +1,85 @@
 {
   "name": "sky-agent",
   "displayName": "Sky Agent",
-  "description": "A talking AI coding assistant.",
-  "version": "0.0.1",
+  "description": "An intelligent AI Coding assistant.",
+  "version": "0.1.0",
   "engines": {
     "vscode": "^1.85.0"
   },
-  "categories": [
+  "categories" : [
+    "AI",
+    "Education",
+    "Programming Languages",
+    "Chat",
     "Other"
-  ],
-  "activationEvents": [
-    "*"
-  ],
-  "main": "./dist/extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "sky-agent.helloWorld",
-        "title": "Hello World (Sky Agent)"
-      },
-      {
-        "command": "skyAgent.show",
-        "title": "Show Sky Agent"
-      }
-    ],
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "sky-agent-sidebar",
-          "title": "Sky Agent",
-          "icon": "$(comment-discussion)"
-        }
-      ]
+],
+"activationEvents": [
+  "onView:skyAgent.skyView"
+],
+"contributes":{ 
+ "commands": [
+    {
+      "command": "sky-agent.helloWorld",
+      "title": "Sky Agent: Hello World",
+      "category": "Sky Agent"
     },
-    "views": {
-      "sky-agent-sidebar": [
-        {
-          "type": "webview",
-          "id": "skyAgent.skyView",
-          "name": "Sky Assistant",
-          "contextualTitle": "Sky Agent",
-          "icon": "$(comment-discussion)"
-        }
-      ]
+    {
+      "command": "skyAgent.testGemini",
+      "title": "Sky Agent: Test Gemini Connection",
+      "category": "Sky Agent"
     }
-  },
-  "scripts": {
-    "vscode:prepublish": "npm run package-webview && npm run package",
-    "compile": "webpack",
-    "watch": "webpack --watch",
-    "package": "webpack --mode production --devtool hidden-source-map",
-    "compile-tests": "tsc -p . --outDir out",
-    "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "npm run compile-tests && npm run compile && npm run lint",
-    "lint": "eslint src",
-    "test": "vscode-test",
-    "compile-webview": "esbuild ./src/webview/main.js --bundle --outfile=out/webview/main.js --format=iife --platform=browser --loader:.js=js",
-    "watch-webview": "esbuild ./src/webview/main.js --bundle --outfile=out/webview/main.js --format=iife --platform=browser --loader:.js=js --watch",
-    "package-webview": "npm run compile-webview && esbuild ./src/webview/styles.css --bundle --outfile=out/webview/styles.css --minify"
-  },
-  "devDependencies": {
-    "@types/mocha": "^10.0.10",
-    "@types/node": "20.x",
-    "@types/vscode": "^1.85.0",
-    "@typescript-eslint/eslint-plugin": "^8.31.1",
-    "@typescript-eslint/parser": "^8.31.1",
-    "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.5.2",
-    "esbuild": "^0.20.2",
-    "eslint": "^9.25.1",
-    "ts-loader": "^9.5.2",
-    "typescript": "^5.8.3",
-    "webpack": "^5.99.7",
-    "webpack-cli": "^6.0.1"
-  },
-  "dependencies": {
-    "@google/generative-ai": "^0.24.1"
-  }
+ ],
+ "viewsContainers": {
+  "activitybar": [
+   {
+    "id": "sky-agent-activitybar-container",
+    "title": "Sky Agent",
+    "icon": "$(comment-discussion)"
+   }
+  ]
+ },
+ "views": {
+  "sky-agent-activitybar-container": [
+    {
+    "type": "webview",
+    "id": "skyAgent.skyView",
+    "name": "Sky Assistant",
+    "contextualTitle": "Sky Agent",
+    "icon": "$(comment-discussion)"
+   }
+  ]
+ }
+},
+"scripts": {
+   "vscode:prepublish": "npm run package-webview && npm run package",
+   "compile": "webpack --mode developent",
+   "watch":  "webpack --mode developement --watch",
+   "package": "webpack --mode production --devtoolhidden-source-map",
+    "lint": "eslint src --ext ts",
+    "compile-webview": "esbuild ./src/weview/main.js --bundle --outfile=out/webview/main.js --format=iife --platform=browser --sourcemap",
+    "watch-webview": "esbuild ./src/webview/main.js --format=life --platform=browser --sourcemap --watch",
+    "compile-webview-css": "esbuild ./src/webview/styles.css --minify",
+    "watch-webview-css": "esbuild ./src/webview/styles.css --minify --watch",
+    "package-webview": "npm run compile-webview && npm run compile-webview-css",
+    "dev-build": "npm run compile-webview && npm run compile-webview-css && npm run compille"
+},
+"devDependencies": {
+  "@types/vscode": "^1.85.0",
+  "@types/glob": "^8.1.0",
+  "@types/mocha": "^10.0.6",
+  "@types/node": "22.15.19",
+  "@typescript-eslint/eslint-plugin": "^7.1.0",
+   "@typescript-eslint/parser": "^7.1.0",
+   "eslint": "^8.57.0",
+    "glob": "^10.3.10",
+    "mocha": "^10.2.0",
+    "typescript": "^5.3.3",
+    "ts-loader": "^9.5.1",
+     "webpack": "^5.90.3", 
+     "webpack-cli": "^5.1.4",
+     "esbuild": "^0.20.0" 
+},
+"dependencies": {
+    "@google/generative-ai": "^0.2.0"
+}
 }
