@@ -6,55 +6,55 @@
   "engines": {
     "vscode": "^1.85.0"
   },
-  "categories" : [
+  "categories": [
     "AI",
     "Education",
     "Programming Languages",
     "Chat",
     "Other"
-],
-"activationEvents": [
-  "onView:skyAgent.skyView"
-],
-"contributes":{ 
- "commands": [
-    {
-      "command": "sky-agent.helloWorld",
-      "title": "Sky Agent: Hello World",
-      "category": "Sky Agent"
+  ],
+  "activationEvents": [
+    "onView:skyAgent.skyView"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "sky-agent.helloWorld",
+        "title": "Sky Agent: Hello World",
+        "category": "Sky Agent"
+      },
+      {
+        "command": "skyAgent.testGemini",
+        "title": "Sky Agent: Test Gemini Connection",
+        "category": "Sky Agent"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "sky-agent-activitybar-container",
+          "title": "Sky Agent",
+          "icon": "$(comment-discussion)"
+        }
+      ]
     },
-    {
-      "command": "skyAgent.testGemini",
-      "title": "Sky Agent: Test Gemini Connection",
-      "category": "Sky Agent"
+    "views": {
+      "sky-agent-activitybar-container": [
+        {
+          "type": "webview",
+          "id": "skyAgent.skyView",
+          "name": "Sky Assistant",
+          "contextualTitle": "Sky Agent",
+          "icon": "$(comment-discussion)"
+        }
+      ]
     }
- ],
- "viewsContainers": {
-  "activitybar": [
-   {
-    "id": "sky-agent-activitybar-container",
-    "title": "Sky Agent",
-    "icon": "$(comment-discussion)"
-   }
-  ]
- },
- "views": {
-  "sky-agent-activitybar-container": [
-    {
-    "type": "webview",
-    "id": "skyAgent.skyView",
-    "name": "Sky Assistant",
-    "contextualTitle": "Sky Agent",
-    "icon": "$(comment-discussion)"
-   }
-  ]
- }
-},
-"scripts": {
-   "vscode:prepublish": "npm run package-webview && npm run package",
-   "compile": "webpack --mode developent",
-   "watch":  "webpack --mode developement --watch",
-   "package": "webpack --mode production --devtoolhidden-source-map",
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package-webview && npm run package",
+    "compile": "webpack --mode developent",
+    "watch": "webpack --mode developement --watch",
+    "package": "webpack --mode production --devtoolhidden-source-map",
     "lint": "eslint src --ext ts",
     "compile-webview": "esbuild ./src/weview/main.js --bundle --outfile=out/webview/main.js --format=iife --platform=browser --sourcemap",
     "watch-webview": "esbuild ./src/webview/main.js --format=life --platform=browser --sourcemap --watch",
@@ -62,24 +62,24 @@
     "watch-webview-css": "esbuild ./src/webview/styles.css --minify --watch",
     "package-webview": "npm run compile-webview && npm run compile-webview-css",
     "dev-build": "npm run compile-webview && npm run compile-webview-css && npm run compille"
-},
-"devDependencies": {
-  "@types/vscode": "^1.85.0",
-  "@types/glob": "^8.1.0",
-  "@types/mocha": "^10.0.6",
-  "@types/node": "22.15.19",
-  "@typescript-eslint/eslint-plugin": "^7.1.0",
-   "@typescript-eslint/parser": "^7.1.0",
-   "eslint": "^8.57.0",
+  },
+  "devDependencies": {
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.15.19",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
+    "esbuild": "^0.20.0",
+    "eslint": "^8.57.0",
     "glob": "^10.3.10",
     "mocha": "^10.2.0",
-    "typescript": "^5.3.3",
     "ts-loader": "^9.5.1",
-     "webpack": "^5.90.3", 
-     "webpack-cli": "^5.1.4",
-     "esbuild": "^0.20.0" 
-},
-"dependencies": {
+    "typescript": "^5.3.3",
+    "webpack": "^5.90.3",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
     "@google/generative-ai": "^0.2.0"
-}
+  }
 }
