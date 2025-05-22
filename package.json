@@ -56,12 +56,12 @@
     "watch": "webpack --mode development --watch",
     "package": "webpack --mode production --devtool hidden-source-map",
     "lint": "eslint src --ext ts",
-    "compile-webview": "esbuild ./src/weview/main.js --bundle --outfile=out/webview/main.js --format=iife --platform=browser --sourcemap",
+    "compile-webview": "esbuild ./src/webview/main.js --bundle --outfile=out/webview/main.js --format=iife --platform=browser --sourcemap",
     "watch-webview": "esbuild ./src/webview/main.js --format=life --platform=browser --sourcemap --watch",
-    "compile-webview-css": "esbuild ./src/webview/styles.css --minify",
-    "watch-webview-css": "esbuild ./src/webview/styles.css --minify --watch",
+    "compile-webview-css": "esbuild ./src/webview/styles.css --outfile=out/webview/styles.css --minify",
+    "watch-webview-css": "esbuild ./src/webview/styles.css --outfile=out/webview/styles.css --minify --watch",
     "package-webview": "npm run compile-webview && npm run compile-webview-css",
-    "dev-build": "npm run compile-webview && npm run compile-webview-css && npm run compille"
+    "dev-build": "npm run compile-webview && npm run compile-webview-css && npm run compile"
   },
   "devDependencies": {
     "@types/glob": "^8.1.0",

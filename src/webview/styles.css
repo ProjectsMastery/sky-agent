@@ -1,18 +1,285 @@
+/* src/webview/styles.css */
+
+/* --- Global Styles & VS Code Theming --- */
 body {
-    font-family: var(--vscode-font-family);
-    color: var(--vscode-editor-foreground);
-    background-color: var(--vscode-editor-background);
-    padding: 10px;
+  /* Use VS Code's standard font family for consistency. */
+  font-family: var(--vscode-font-family);
+  /* Use VS Code's editor foreground color for text. */
+  color: var(--vscode-editor-foreground);
+  /* Use VS Code's sidebar background color, falling back to editor background. */
+  /* This helps the WebView blend in better with the VS Code UI. */
+  background-color: var(--vscode-side-bar-background, var(--vscode-editor-background));
+  /* Remove default body padding and margin. */
+  padding: 0;
+  margin: 0;
+  /* Make the body a flex container to arrange its children vertically. */
+  display: flex;
+  flex-direction: column;
+  /* Ensure the body takes up the full height of the WebView. */
+  height: 100vh;
+  /* Prevent the body itself from scrolling; specific child elements will scroll. */
+  overflow: hidden;
 }
 
-button {
-    background-color: var(--vscode-button-background);
-    color: var(--vscode-button-foreground);
-    border: 1px solid var(--vscode-button-border, var(--vscode-contrastBorder, transparent));
-    padding: 5px 10px;
-    cursor: pointer;
+/* --- Main Container for Sky Agent UI --- */
+.sky-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Take full height of parent (body) */
+  padding: 12px; /* Consistent padding around the content */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
-button:hover {
-    background-color: var(--vscode-button-hoverBackground);
+/* --- Header Section --- */
+.sky-header {
+  display: flex;
+  align-items: center; /* Vertically align items in the header */
+  padding-bottom: 10px;
+  /* Use VS Code's editor widget border or panel border for a subtle separator. */
+  border-bottom: 1px solid var(--vscode-editorWidget-border, var(--vscode-panel-border));
+  margin-bottom: 10px;
+  flex-shrink: 0; /* Prevent header from shrinking if content below grows */
+}
+
+.sky-visual-orb {
+  width: 28px; /* Size of the orb */
+  height: 28px;
+  /* Use VS Code's button background as a base color for the orb. */
+  background-color: var(--vscode-button-background);
+  border-radius: 50%; /* Make it a perfect circle */
+  margin-right: 10px;
+  /* We can add animations (pulsing, etc.) to this orb later. */
+  /* Example: transition: transform 0.3s ease-in-out; */
+}
+/* Example hover effect for the orb (can be expanded) */
+/* .sky-visual-orb:hover {
+  transform: scale(1.1);
+} */
+
+.sky-header h2 {
+  margin: 0; /* Remove default h2 margin */
+  /* Use VS Code's standard font size. */
+  font-size: var(--vscode-font-size);
+  font-weight: 600; /* Slightly bolder title */
+}
+
+/* --- Chat Messages Area --- */
+.chat-messages {
+  flex-grow: 1; /* Allow this area to take up remaining vertical space */
+  overflow-y: auto; /* Enable vertical scrolling if content overflows */
+  padding: 5px; /* Small padding inside the message area */
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column; /* Stack messages vertically */
+}
+
+/* Individual message bubbles */
+.message {
+  padding: 8px 12px;
+  border-radius: 12px; /* Rounded corners for bubbles */
+  margin-bottom: 10px; /* Space between messages */
+  max-width: 85%; /* Prevent messages from taking full width, for bubble effect */
+  word-wrap: break-word; /* Allow long words to break and wrap */
+  /* Slightly smaller font for messages compared to main UI text. */
+  font-size: calc(var(--vscode-font-size) * 0.95);
+  line-height: 1.4; /* Improve readability */
+}
+
+.user-message {
+  /* Use VS Code's active list selection colors for user messages. */
+  background-color: var(--vscode-list-activeSelectionBackground);
+  color: var(--vscode-list-activeSelectionForeground);
+  align-self: flex-end; /* Align user messages to the right */
+  border-bottom-right-radius: 3px; /* Slightly less rounding on one corner for "tail" effect */
+}
+
+.sky-message {
+  /* Use VS Code's editor widget or secondary button colors for Sky's messages. */
+  background-color: var(--vscode-editorWidget-background, var(--vscode-input-background));
+  color: var(--vscode-editorWidget-foreground, var(--vscode-input-foreground));
+  align-self: flex-start; /* Align Sky messages to the left */
+  border-bottom-left-radius: 3px; /* "Tail" effect */
+}
+
+/* Remove default margins from paragraphs inside message bubbles */
+.sky-message p, .user-message p {
+  margin: 0;
+}
+
+/* Styling for code blocks (<pre>) within Sky's messages */
+.sky-message pre {
+  /* Use VS Code's text block quote background or a subtle semi-transparent black. */
+  background-color: var(--vscode-textBlockQuote-background, rgba(0,0,0,0.05));
+  /* Foreground color for code block text. */
+  color: var(--vscode-editor-foreground); /* Ensure readability, might need adjustment for some themes */
+  padding: 10px;
+  border-radius: 6px;
+  overflow-x: auto; /* Allow horizontal scrolling for long lines of code */
+  /* Use VS Code's editor font family for code blocks. */
+  font-family: var(--vscode-editor-font-family, monospace);
+  /* Slightly smaller font size for code. */
+  font-size: calc(var(--vscode-editor-font-size) * 0.92);
+  /* Border for code blocks. */
+  border: 1px solid var(--vscode-textBlockQuote-border, var(--vscode-contrastBorder, rgba(0,0,0,0.1)));
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+/* We'll add proper syntax highlighting for code blocks later using a library like Prism.js or highlight.js,
+   which would involve adding their CSS and JS to the WebView. */
+
+
+/* --- Chat Input Area --- */
+.chat-input-area {
+  display: flex;
+  align-items: flex-start; /* Align items to the top, useful if textarea grows */
+  padding-top: 10px;
+  border-top: 1px solid var(--vscode-editorWidget-border, var(--vscode-panel-border));
+  flex-shrink: 0; /* Prevent input area from shrinking */
+}
+
+#userInput { /* The <textarea> for user input */
+  flex-grow: 1; /* Allow textarea to take available horizontal space */
+  background-color: var(--vscode-input-background);
+  color: var(--vscode-input-foreground);
+  border: 1px solid var(--vscode-input-border, var(--vscode-contrastBorder, transparent));
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-family: var(--vscode-font-family);
+  font-size: var(--vscode-font-size);
+  resize: none; /* Disable manual resizing by the user */
+  min-height: 22px; /* Start with a height roughly for one line of text (adjust padding) */
+  max-height: 120px; /* Limit max height before textarea itself scrolls */
+  overflow-y: auto; /* Enable scrolling within textarea if content exceeds max-height */
+  margin-right: 8px;
+  line-height: 1.4; /* For better readability in textarea */
+}
+
+#userInput:focus {
+  /* Use VS Code's focus border color for emphasis when textarea is active. */
+  outline: 1px solid var(--vscode-focusBorder);
+  border-color: var(--vscode-focusBorder); /* Also change border color on focus */
+}
+
+#sendButton { /* The send button next to the textarea */
+  background-color: var(--vscode-button-background);
+  color: var(--vscode-button-foreground); /* Color for the SVG icon inside */
+  border: 1px solid var(--vscode-button-border, transparent);
+  border-radius: 4px;
+  padding: 8px; /* Adjust padding for button size */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px; /* Ensure button maintains a decent clickable area */
+  height: 38px;    /* Match typical single-line input height for alignment */
+  align-self: flex-end; /* Keep button at the bottom if textarea grows tall */
+  /* margin-bottom: 1px; (Optional) slight adjustment for perfect visual alignment with some fonts */
+  transition: background-color 0.1s ease-in-out; /* Smooth hover effect */
+}
+
+#sendButton:hover {
+  background-color: var(--vscode-button-hoverBackground);
+}
+
+/* Ensure the SVG icon inside the button inherits the button's color. */
+#sendButton svg {
+  fill: currentColor; /* Uses the 'color' property of the #sendButton */
+}
+
+
+/* --- Loading Indicator Animation ("Sky is thinking...") --- */
+.loading-indicator {
+  display: flex; /* Changed from 'none' by JS; 'flex' used for alignment */
+  align-items: center;
+  justify-content: center; /* Center the dots and text */
+  padding: 10px 0; /* Vertical padding, no horizontal as it's centered */
+  /* margin-bottom: 10px; (Removed, as it's now above input area) */
+  color: var(--vscode-descriptionForeground); /* Softer color for "Sky is thinking..." text */
+  flex-shrink: 0;
+}
+
+.loading-indicator span {
+  margin-left: 10px; /* Space between dots and text */
+  font-style: italic;
+  font-size: calc(var(--vscode-font-size) * 0.9);
+}
+
+/* Dot Flashing Animation (common three-dot loading animation) */
+.dot-flashing {
+  position: relative;
+  width: 8px;  /* Smaller dots */
+  height: 8px;
+  border-radius: 5px; /* Keeps it circular */
+  /* Use VS Code's progress bar background or button background as the dot color. */
+  background-color: var(--vscode-progressBar-background, var(--vscode-button-primary-background));
+  color: var(--vscode-progressBar-background, var(--vscode-button-primary-background)); /* Fallback for color animation */
+  animation: dotFlashing 1s infinite linear alternate;
+  animation-delay: .5s; /* Stagger the middle dot's animation */
+}
+
+.dot-flashing::before,
+.dot-flashing::after {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  top: 0;
+}
+
+.dot-flashing::before {
+  left: -12px; /* Spacing for the first dot */
+  width: 8px;
+  height: 8px;
+  border-radius: 5px;
+  background-color: var(--vscode-progressBar-background, var(--vscode-button-primary-background));
+  color: var(--vscode-progressBar-background, var(--vscode-button-primary-background));
+  animation: dotFlashing 1s infinite alternate;
+  animation-delay: 0s; /* First dot starts its animation immediately */
+}
+
+.dot-flashing::after {
+  left: 12px; /* Spacing for the third dot */
+  width: 8px;
+  height: 8px;
+  border-radius: 5px;
+  background-color: var(--vscode-progressBar-background, var(--vscode-button-primary-background));
+  color: var(--vscode-progressBar-background, var(--vscode-button-primary-background));
+  animation: dotFlashing 1s infinite alternate;
+  animation-delay: 1s; /* Last dot starts its animation after a delay */
+}
+
+@keyframes dotFlashing {
+  0% {
+    /* Start color of the dot */
+    background-color: var(--vscode-progressBar-background, var(--vscode-button-primary-background));
+  }
+  50%,
+  100% {
+    /* End color of the dot (can be different to create a flashing effect) */
+    /* Using descriptionForeground for a subtle flash that matches the "thinking" text. */
+    background-color: var(--vscode-descriptionForeground, #777);
+  }
+}
+
+/* --- Custom Scrollbar Styling (to match VS Code's look) --- */
+/* Works in WebKit-based browsers (Chrome, Edge, Safari) which VS Code's WebView uses. */
+::-webkit-scrollbar {
+  width: 8px;  /* Width of the vertical scrollbar */
+  height: 8px; /* Height of the horizontal scrollbar */
+}
+::-webkit-scrollbar-track {
+  /* Background of the scrollbar track, using VS Code's shadow variable for a subtle look. */
+  background: transparent; /* Or var(--vscode-scrollbar-shadow) if you want a slight track visible */
+}
+::-webkit-scrollbar-thumb {
+  /* The draggable scrolling handle. */
+  background: var(--vscode-scrollbarSlider-background);
+  border-radius: 4px; /* Rounded scrollbar thumb */
+}
+::-webkit-scrollbar-thumb:hover {
+  /* Color of the thumb on hover. */
+  background: var(--vscode-scrollbarSlider-hoverBackground);
+}
+::-webkit-scrollbar-thumb:active {
+  /* Color of the thumb when clicked/dragged. */
+  background: var(--vscode-scrollbarSlider-activeBackground);
 }
